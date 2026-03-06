@@ -222,6 +222,7 @@ export function StripEditor({ photos, filterMode, occasion, layout = 'strip', on
         fabricCanvasRef.current,
         photos,
         selectedBgColor,
+        layout,
         'photo-booth-strip.png'
       );
     } catch (error) {
