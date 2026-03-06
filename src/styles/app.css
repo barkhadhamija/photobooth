@@ -430,6 +430,9 @@ body {
   color: #f0f0f0;
   line-height: 1.5;
   overflow-x: hidden;
+  -webkit-overflow-scrolling: touch; /* smooth momentum scroll on iOS */
+  -webkit-tap-highlight-color: transparent; /* remove tap flash on mobile */
+  -webkit-text-size-adjust: 100%; /* prevent iOS font size auto-adjustment */
 }
 
 /* Landing Intro Overlay */
@@ -500,6 +503,8 @@ body {
   gap: 24px;
   max-width: 800px;
   width: 100%;
+  /* ensure child elements don't overflow on small screens */
+  overflow-x: hidden;
 }
 
 /* ── Layout Picker ──────────────────────────────────────────── */
@@ -517,6 +522,7 @@ body {
   -webkit-backdrop-filter: blur(16px);
   max-width: 640px;
   width: 100%;
+  box-sizing: border-box;
 }
 
 .layout-picker-title {
@@ -540,6 +546,7 @@ body {
   gap: 24px;
   align-items: flex-start;
   justify-content: center;
+  flex-wrap: wrap;
 }
 
 .layout-option {
@@ -637,6 +644,8 @@ body {
   box-shadow: 0 0 40px rgba(120, 160, 255, 0.15), inset 0 0 20px rgba(120, 160, 255, 0.05);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .selector-title {
@@ -704,6 +713,8 @@ body {
   position: relative;
   border: 1px solid rgba(255, 255, 255, 0.08);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  /* ensure it doesn't overflow on narrow screens */
+  box-sizing: border-box;
 }
 
 .camera-video {
@@ -734,7 +745,7 @@ body {
 }
 
 .countdown-number {
-  font-size: 120px;
+  font-size: clamp(64px, 20vw, 120px);
   font-weight: 700;
   color: #ffffff;
   text-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
@@ -818,6 +829,8 @@ button {
 .mode-selector {
   display: flex;
   gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .mode-button {
@@ -881,8 +894,8 @@ button {
 
 /* Final Photo Strip (vertical layout - tall classic booth style) */
 .final-photo-strip {
-  width: 240px;
-  height: 80vh;
+  width: min(240px, 80vw);
+  height: clamp(400px, 75vh, 680px);
   background-color: rgba(255, 255, 255, 0.04);
   border-radius: 14px;
   padding: 16px 12px;
@@ -922,7 +935,7 @@ button {
 
 /* Grid layout (2×3) for 6-photo strip */
 .final-photo-strip-grid {
-  width: 300px;
+  width: min(300px, 92vw);
   background-color: rgba(255, 255, 255, 0.04);
   border-radius: 14px;
   padding: 16px 12px;
@@ -963,6 +976,8 @@ button {
 .confirmation-buttons {
   display: flex;
   gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 /* Occasion Selector */
@@ -971,15 +986,16 @@ button {
   flex-direction: column;
   align-items: center;
   gap: 28px;
-  padding: 40px 64px; /* Increased left & right padding to keep alignment clean */
+  padding: 40px 48px;
   background-color: rgba(255, 255, 255, 0.04);
   border-radius: 24px;
   border: 1px solid rgba(160, 180, 255, 0.2);
   box-shadow: 0 0 48px rgba(120, 160, 255, 0.12), inset 0 0 24px rgba(120, 160, 255, 0.04);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  max-width: 680px; /* Slight increase to accommodate more padding cleanly */
+  max-width: 680px;
   width: 100%;
+  box-sizing: border-box;
 }
 
 .occasion-title {
@@ -1155,8 +1171,9 @@ button {
   border: 1px solid rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  max-width: 400px;
+  max-width: min(400px, 92vw);
   width: 100%;
+  box-sizing: border-box;
 }
 
 .sticker-label {
@@ -1228,6 +1245,10 @@ button {
   border: 1px solid rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .filter-label {
@@ -1240,6 +1261,8 @@ button {
 .filter-options {
   display: flex;
   gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .filter-option {
@@ -1293,10 +1316,345 @@ button {
   transform: scale(1.03);
 }
 
-/* Responsive adjustments */
+/* ═══════════════════════════════════════════════════════════════
+   RESPONSIVE — Mobile & Tablet
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Tablet (≤768px) ──────────────────────────────────────────── */
 @media (max-width: 768px) {
   .landing-intro-text {
     font-size: clamp(36px, 10vw, 64px);
+  }
+
+  /* App shell */
+  .app {
+    padding: 24px 16px;
+  }
+
+  .app-title {
+    font-size: 28px;
+    margin-bottom: 24px;
+  }
+
+  .main-content {
+    gap: 16px;
+  }
+
+  /* Layout & count selectors */
+  .layout-picker,
+  .photo-count-selector,
+  .occasion-selector {
+    padding: 28px 20px;
+    gap: 20px;
+    border-radius: 18px;
+  }
+
+  .layout-picker-title,
+  .selector-title,
+  .occasion-title {
+    font-size: 20px;
+  }
+
+  .layout-options {
+    gap: 16px;
+  }
+
+  /* Count buttons — slightly smaller */
+  .count-button {
+    width: 68px;
+    height: 68px;
+    font-size: 26px;
+    border-radius: 14px;
+  }
+
+  /* Camera */
+  .camera-container {
+    border-radius: 12px;
+  }
+
+  /* Photo strip thumbnails */
+  .photo-strip {
+    gap: 8px;
+    padding: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .photo-thumbnail {
+    width: 64px;
+    height: 64px;
+    border-radius: 8px;
+  }
+
+  /* Confirmation buttons */
+  .confirmation-buttons {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    width: 100%;
+  }
+
+  .capture-button,
+  .retake-button {
+    width: 100%;
+    text-align: center;
+    padding: 14px 20px;
+    box-sizing: border-box;
+  }
+
+  /* Occasion buttons */
+  .occasion-buttons {
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 12px;
+  }
+
+  .occasion-button {
+    font-size: 14px;
+    padding: 14px 12px;
+  }
+
+  /* Filter selector */
+  .filter-selector {
+    flex-direction: column;
+    gap: 10px;
+    padding: 14px;
+  }
+
+  .filter-options {
+    gap: 8px;
+  }
+
+  .filter-option {
+    padding: 10px 14px;
+    font-size: 13px;
+  }
+
+  /* Strip editor canvas — scale it to fit screen */
+  .strip-editor {
+    gap: 16px;
+    width: 100%;
+    align-items: center;
+  }
+
+  .strip-editor canvas {
+    max-width: 100%;
+    height: auto !important;
+    touch-action: manipulation;
+  }
+
+  /* Bring editor hint and toolbar closer */
+  .editor-hint {
+    font-size: 12px;
+    max-width: 280px;
+  }
+
+  /* Background color picker */
+  .background-color-picker {
+    padding: 12px 16px;
+    max-width: 92vw;
+    box-sizing: border-box;
+  }
+
+  .color-swatches {
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  /* Sticker toolbar */
+  .sticker-toolbar {
+    max-width: 92vw;
+    padding: 14px 16px;
+  }
+
+  .sticker-button {
+    width: 54px;
+    height: 54px;
+    padding: 6px;
+  }
+
+  /* Mode buttons */
+  .mode-button {
+    padding: 10px 18px;
+    font-size: 13px;
+  }
+}
+
+/* ── Phone portrait (≤480px) ──────────────────────────────────── */
+@media (max-width: 480px) {
+  .app {
+    padding: 20px 12px;
+  }
+
+  .app-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+
+  .main-content {
+    gap: 14px;
+  }
+
+  .layout-picker,
+  .photo-count-selector,
+  .occasion-selector {
+    padding: 22px 14px;
+    gap: 18px;
+    border-radius: 16px;
+  }
+
+  .layout-picker-title,
+  .selector-title,
+  .occasion-title {
+    font-size: 18px;
+  }
+
+  .layout-picker-sub {
+    font-size: 12px;
+  }
+
+  /* Count button row wraps nicely on tiny screens */
+  .count-options {
+    gap: 12px;
+  }
+
+  .count-button {
+    width: 60px;
+    height: 60px;
+    font-size: 24px;
+    border-radius: 12px;
+  }
+
+  /* Camera aspect stays 16/9 but narrower */
+  .camera-container {
+    border-radius: 10px;
+  }
+
+  /* Photo thumbnail strip */
+  .photo-strip {
+    gap: 6px;
+    padding: 10px;
+  }
+
+  .photo-thumbnail {
+    width: 52px;
+    height: 52px;
+    border-radius: 6px;
+  }
+
+  /* Capture button full width */
+  button.capture-button {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* Occasion buttons — 2 per row on tiny phones */
+  .occasion-buttons {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .occasion-button {
+    font-size: 13px;
+    padding: 12px 8px;
+    border-radius: 12px;
+  }
+
+  /* Final strip preview */
+  .final-photo-strip {
+    width: 82vw;
+    height: auto;
+    min-height: 64vw;
+  }
+
+  .final-photo-strip-grid {
+    width: 88vw;
+  }
+
+  /* Strip editor canvas on small phone */
+  .strip-editor {
+    gap: 12px;
+  }
+
+  .sticker-button {
+    width: 48px;
+    height: 48px;
+    padding: 5px;
+  }
+
+  .sticker-buttons {
+    max-height: 180px;
+  }
+
+  /* Color swatches */
+  .color-swatch {
+    width: 34px;
+    height: 34px;
+  }
+
+  /* Mode selector */
+  .mode-selector {
+    gap: 8px;
+  }
+
+  .mode-button {
+    padding: 9px 14px;
+    font-size: 12px;
+  }
+
+  /* Filter options */
+  .filter-option {
+    padding: 9px 12px;
+    font-size: 12px;
+  }
+
+  /* Hero hint text */
+  .hero-hint {
+    font-size: 10px;
+    bottom: 20px;
+  }
+}
+
+/* ── Landscape phone (short viewport) ──────────────────────────── */
+@media (max-height: 500px) and (orientation: landscape) {
+  .app {
+    padding: 12px 16px;
+  }
+
+  .app-title {
+    font-size: 20px;
+    margin-bottom: 12px;
+  }
+
+  .main-content {
+    gap: 12px;
+  }
+
+  /* Camera fills width in landscape too */
+  .camera-container {
+    max-width: 100%;
+  }
+
+  .layout-picker,
+  .photo-count-selector,
+  .occasion-selector {
+    padding: 18px 20px;
+    gap: 14px;
+  }
+
+  .count-button {
+    width: 56px;
+    height: 56px;
+    font-size: 22px;
+  }
+
+  .final-photo-strip {
+    height: clamp(240px, 80vh, 480px);
+  }
+
+  .strip-editor canvas {
+    max-height: 60vh;
+    width: auto !important;
   }
 }
 /* ... ALL EXISTING STYLES REMAIN EXACTLY THE SAME ... */
@@ -1391,177 +1749,5 @@ button {
   }
 }
 
-/* ── Global Mobile Responsiveness ── */
-@media (max-width: 768px) {
-  /* App Root */
-  .app {
-    padding: 20px 12px;
-  }
-  
-  .app-title {
-    font-size: 28px;
-    margin-bottom: 24px;
-    text-align: center;
-  }
 
-  .main-content {
-    gap: 16px;
-    padding-bottom: 40px;
-  }
 
-  /* Modals & Selectors shared padding reduction */
-  .layout-picker,
-  .photo-count-selector,
-  .occasion-selector {
-    padding: 24px 20px;
-    gap: 20px;
-    border-radius: 16px;
-  }
-
-  /* Typography */
-  .layout-picker-title,
-  .selector-title,
-  .occasion-title {
-    font-size: 20px;
-    text-align: center;
-  }
-
-  /* Photo Count Buttons */
-  .count-button {
-    width: 60px;
-    height: 60px;
-    font-size: 24px;
-    border-radius: 12px;
-  }
-
-  /* Layout Options */
-  .layout-options {
-    flex-direction: column;
-    gap: 16px;
-    width: 100%;
-  }
-
-  .layout-option {
-    width: 100%;
-  }
-
-  /* Occasion Selector Grid */
-  .occasion-buttons {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 8px;
-  }
-
-  .occasion-button {
-    padding: 12px 10px;
-    font-size: 14px;
-  }
-  
-  .occasion-button-all {
-    grid-column: span 2;
-  }
-
-  /* Camera Container */
-  .camera-container, .canvas-container {
-    border-radius: 12px;
-  }
-
-  .countdown-number {
-    font-size: 80px;
-  }
-
-  /* Action Buttons */
-  button {
-    padding: 10px 24px;
-    font-size: 14px;
-  }
-
-  .confirmation-buttons {
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
-  /* Thumbnails */
-  .photo-strip {
-    padding: 10px;
-    gap: 8px;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-
-  .photo-thumbnail {
-    width: 60px;
-    height: 60px;
-  }
-
-  /* Final Strip Layouts */
-  .final-photo-strip {
-    width: 200px;
-    height: auto;
-    max-height: 70vh;
-    padding: 12px 10px;
-  }
-
-  .final-photo-strip-grid {
-    width: 100%;
-    max-width: 300px;
-    padding: 12px 10px;
-    gap: 8px;
-  }
-
-  /* Editor Mode */
-  .strip-editor {
-    gap: 16px;
-    width: 100%;
-  }
-
-  .strip-editor canvas {
-    max-width: 100%;
-    height: auto !important; /* allow proportional scaling */
-  }
-
-  .editor-hint {
-    font-size: 12px;
-  }
-
-  /* palettes & toolbars */
-  .background-color-picker,
-  .sticker-toolbar,
-  .filter-selector {
-    padding: 12px;
-    border-radius: 12px;
-    max-width: 100%;
-  }
-
-  .color-swatches {
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 8px;
-  }
-
-  .color-swatch {
-    width: 32px;
-    height: 32px;
-  }
-
-  .sticker-buttons {
-    max-height: 140px;
-    gap: 8px;
-    justify-content: flex-start;
-  }
-
-  .sticker-button {
-    width: 50px;
-    height: 50px;
-    padding: 6px;
-  }
-
-  .filter-options {
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
-  .filter-option {
-    padding: 6px 12px;
-    font-size: 13px;
-  }
-}

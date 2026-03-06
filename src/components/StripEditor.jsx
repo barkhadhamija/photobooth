@@ -4,7 +4,7 @@
  * Uses STRIP_LAYOUT config for exact dimensions.
  */
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { fabric } from 'fabric';
 import { StickerToolbar } from './StickerToolbar';
 import { BackgroundColorPicker } from './BackgroundColorPicker';
@@ -16,6 +16,7 @@ export function StripEditor({ photos, filterMode, occasion, layout = 'strip', on
   const [selectedBgColor, setSelectedBgColor] = useState(
     occasion?.backgroundColors?.length > 0 ? occasion.backgroundColors[0] : '#FFFFFF'
   );
+  const [canvasScale, setCanvasScale] = useState(1);
 
   // Pick the layout config based on the layout prop
   const LAYOUT = layout === 'grid' ? GRID_LAYOUT : STRIP_LAYOUT;
@@ -24,6 +25,22 @@ export function StripEditor({ photos, filterMode, occasion, layout = 'strip', on
   const stripHeight = layout === 'grid'
     ? GRID_LAYOUT.calculateStripHeight()
     : STRIP_LAYOUT.calculateStripHeight(photoCount);
+
+  // Compute a CSS scale so the canvas always fits the viewport width.
+  // We preserve the internal pixel dimensions for download quality.
+  const updateScale = useCallback(() => {
+    const canvasWidth = LAYOUT.stripWidth;
+    // 24px left + 24px right margin on mobile
+    const availableWidth = Math.min(window.innerWidth - 48, canvasWidth);
+    const scale = availableWidth / canvasWidth;
+    setCanvasScale(scale < 1 ? scale : 1);
+  }, [LAYOUT.stripWidth]);
+
+  useEffect(() => {
+    updateScale();
+    window.addEventListener('resize', updateScale);
+    return () => window.removeEventListener('resize', updateScale);
+  }, [updateScale]);
 
   // Initialize canvas ONCE on mount
   useEffect(() => {
@@ -37,6 +54,8 @@ export function StripEditor({ photos, filterMode, occasion, layout = 'strip', on
       selectionBorderColor: '#333333',
       selectionLineWidth: 1,
       selectionDashArray: [],
+      allowTouchScrolling: false, // capture touch events for dragging stickers
+      enablePointerEvents: true,  // enables pointer events for better touch support
     });
 
     fabricCanvasRef.current = canvas;
@@ -147,6 +166,10 @@ export function StripEditor({ photos, filterMode, occasion, layout = 'strip', on
   const handleAddSticker = (stickerUrl) => {
     if (!fabricCanvasRef.current) return;
 
+    // Larger corner handles on touch devices for easier finger interaction
+    const isTouchDevice = window.matchMedia('(pointer: coarse)').matches;
+    const cornerSize = isTouchDevice ? 20 : 10;
+
     fabric.Image.fromURL(stickerUrl, (img) => {
       if (!img) {
         console.error('Failed to load sticker:', stickerUrl);
@@ -165,7 +188,7 @@ export function StripEditor({ photos, filterMode, occasion, layout = 'strip', on
         hasBorders: true,
         lockScalingFlip: true,
         cornerStyle: 'circle',
-        cornerSize: 10,
+        cornerSize: cornerSize,
         cornerColor: 'white',
         cornerStrokeColor: '#333333',
         borderColor: '#333333',
@@ -221,11 +244,29 @@ export function StripEditor({ photos, filterMode, occasion, layout = 'strip', on
     return <div>No stickers available for this occasion</div>;
   }
 
+  // Canvas wrapper style: shrinks via CSS transform while reserving layout space
+  const canvasWrapperStyle = {
+    width: LAYOUT.stripWidth * canvasScale,
+    height: stripHeight * canvasScale,
+    overflow: 'hidden',
+    flexShrink: 0,
+  };
+
+  const canvasInnerStyle = {
+    transformOrigin: 'top left',
+    transform: `scale(${canvasScale})`,
+    display: 'block',
+  };
+
   return (
     <div className="strip-editor">
-      <canvas ref={canvasRef} />
+      <div style={canvasWrapperStyle}>
+        <div style={canvasInnerStyle}>
+          <canvas ref={canvasRef} />
+        </div>
+      </div>
       <div className="editor-hint">
-        click stickers to move, resize, or rotate. press delete to remove.
+        tap or click stickers to move, resize, or rotate. press delete to remove.
       </div>
       <BackgroundColorPicker
         colors={occasion.backgroundColors}
