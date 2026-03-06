@@ -1391,5 +1391,177 @@ button {
   }
 }
 
+/* ── Global Mobile Responsiveness ── */
+@media (max-width: 768px) {
+  /* App Root */
+  .app {
+    padding: 20px 12px;
+  }
+  
+  .app-title {
+    font-size: 28px;
+    margin-bottom: 24px;
+    text-align: center;
+  }
 
+  .main-content {
+    gap: 16px;
+    padding-bottom: 40px;
+  }
 
+  /* Modals & Selectors shared padding reduction */
+  .layout-picker,
+  .photo-count-selector,
+  .occasion-selector {
+    padding: 24px 20px;
+    gap: 20px;
+    border-radius: 16px;
+  }
+
+  /* Typography */
+  .layout-picker-title,
+  .selector-title,
+  .occasion-title {
+    font-size: 20px;
+    text-align: center;
+  }
+
+  /* Photo Count Buttons */
+  .count-button {
+    width: 60px;
+    height: 60px;
+    font-size: 24px;
+    border-radius: 12px;
+  }
+
+  /* Layout Options */
+  .layout-options {
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+  }
+
+  .layout-option {
+    width: 100%;
+  }
+
+  /* Occasion Selector Grid */
+  .occasion-buttons {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+
+  .occasion-button {
+    padding: 12px 10px;
+    font-size: 14px;
+  }
+  
+  .occasion-button-all {
+    grid-column: span 2;
+  }
+
+  /* Camera Container */
+  .camera-container, .canvas-container {
+    border-radius: 12px;
+  }
+
+  .countdown-number {
+    font-size: 80px;
+  }
+
+  /* Action Buttons */
+  button {
+    padding: 10px 24px;
+    font-size: 14px;
+  }
+
+  .confirmation-buttons {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  /* Thumbnails */
+  .photo-strip {
+    padding: 10px;
+    gap: 8px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .photo-thumbnail {
+    width: 60px;
+    height: 60px;
+  }
+
+  /* Final Strip Layouts */
+  .final-photo-strip {
+    width: 200px;
+    height: auto;
+    max-height: 70vh;
+    padding: 12px 10px;
+  }
+
+  .final-photo-strip-grid {
+    width: 100%;
+    max-width: 300px;
+    padding: 12px 10px;
+    gap: 8px;
+  }
+
+  /* Editor Mode */
+  .strip-editor {
+    gap: 16px;
+    width: 100%;
+  }
+
+  .strip-editor canvas {
+    max-width: 100%;
+    height: auto !important; /* allow proportional scaling */
+  }
+
+  .editor-hint {
+    font-size: 12px;
+  }
+
+  /* palettes & toolbars */
+  .background-color-picker,
+  .sticker-toolbar,
+  .filter-selector {
+    padding: 12px;
+    border-radius: 12px;
+    max-width: 100%;
+  }
+
+  .color-swatches {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .color-swatch {
+    width: 32px;
+    height: 32px;
+  }
+
+  .sticker-buttons {
+    max-height: 140px;
+    gap: 8px;
+    justify-content: flex-start;
+  }
+
+  .sticker-button {
+    width: 50px;
+    height: 50px;
+    padding: 6px;
+  }
+
+  .filter-options {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .filter-option {
+    padding: 6px 12px;
+    font-size: 13px;
+  }
+}
