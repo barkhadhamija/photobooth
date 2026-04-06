@@ -1,3 +1,4 @@
+'use client';
 /**
  * PhotoCountSelector.jsx
  * Allows user to choose number of photos for the strip.

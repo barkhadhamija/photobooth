@@ -1,3 +1,4 @@
+'use client';
 /**
  * FilterSelector.jsx (renamed to OverlaySelector)
  * Displays OVERLAY options for live camera preview.

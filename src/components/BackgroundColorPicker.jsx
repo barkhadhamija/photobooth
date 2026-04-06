@@ -1,3 +1,4 @@
+'use client';
 /**
  * BackgroundColorPicker.jsx
  * Displays curated color palette for photo strip background.

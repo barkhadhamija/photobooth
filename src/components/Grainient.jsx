@@ -1,3 +1,4 @@
+'use client';
 /**
  * Grainient.jsx
  * Faithfully extracted from reactbits.dev — zero visual changes.

@@ -1,3 +1,4 @@
+'use client';
 /**
  * StripEditor.jsx
  * Wraps fabric.js canvas for photo strip editing.
@@ -118,9 +119,10 @@ export function StripEditor({ photos, filterMode, occasion, layout = 'strip', on
     });
 
     // Load photos using LAYOUT positions
+    let isCurrent = true;
     photos.forEach((photo, index) => {
       fabric.Image.fromURL(photo, (img) => {
-        if (!img) return;
+        if (!isCurrent || !img || !fabricCanvasRef.current) return;
 
         const pos = LAYOUT.getPhotoPosition(index);
 
@@ -161,7 +163,11 @@ export function StripEditor({ photos, filterMode, occasion, layout = 'strip', on
         canvas.renderAll();
       }, { crossOrigin: 'anonymous' });
     });
-  }, [photos]);
+
+    return () => {
+      isCurrent = false;
+    };
+  }, [photos, LAYOUT]);
 
   const handleAddSticker = (stickerUrl) => {
     if (!fabricCanvasRef.current) return;
@@ -171,8 +177,7 @@ export function StripEditor({ photos, filterMode, occasion, layout = 'strip', on
     const cornerSize = isTouchDevice ? 20 : 10;
 
     fabric.Image.fromURL(stickerUrl, (img) => {
-      if (!img) {
-        console.error('Failed to load sticker:', stickerUrl);
+      if (!img || !fabricCanvasRef.current) {
         return;
       }
 

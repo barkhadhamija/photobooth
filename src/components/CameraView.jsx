@@ -1,3 +1,4 @@
+'use client';
 /**
  * CameraView.jsx
  * ORIGINAL WORKING VERSION - RESTORED

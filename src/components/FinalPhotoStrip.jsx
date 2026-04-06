@@ -1,3 +1,4 @@
+'use client';
 /**
  * FinalPhotoStrip.jsx
  * Renders all confirmed photos.

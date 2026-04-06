@@ -1,25 +1,26 @@
+'use client';
+
 /**
- * App.jsx
+ * App.jsx -> app/page.jsx (Next.js)
  * Camera initializes ONLY after landing page is dismissed
  */
 
-import React, { useState, useRef } from 'react';
-import { CameraView } from './components/CameraView';
-import { CaptureButton } from './components/CaptureButton';
-import { ModeSelector } from './components/ModeSelector';
-import { PhotoCanvas } from './components/PhotoCanvas';
-import { PhotoStrip } from './components/PhotoStrip';
-import { FinalPhotoStrip } from './components/FinalPhotoStrip';
-import { OccasionSelector } from './components/OccasionSelector';
-import { StripEditor } from './components/StripEditor';
-import { PhotoCountSelector } from './components/PhotoCountSelector';
-import { LayoutPicker } from './components/LayoutPicker';
-import { OverlaySelector } from './components/FilterSelector';
-import PhotoBoothHero from './components/PhotoBoothHero';
-import { captureOverlays, drawOverlay } from './utils/filters';
-// ✅ Grainient import removed from here — it is now used inside PhotoBoothHero
+import React, { useState, useRef, useEffect } from 'react';
+import { CameraView } from '../components/CameraView';
+import { CaptureButton } from '../components/CaptureButton';
+import { ModeSelector } from '../components/ModeSelector';
+import { PhotoCanvas } from '../components/PhotoCanvas';
+import { PhotoStrip } from '../components/PhotoStrip';
+import { FinalPhotoStrip } from '../components/FinalPhotoStrip';
+import { OccasionSelector } from '../components/OccasionSelector';
+import { StripEditor } from '../components/StripEditor';
+import { PhotoCountSelector } from '../components/PhotoCountSelector';
+import { LayoutPicker } from '../components/LayoutPicker';
+import { OverlaySelector } from '../components/FilterSelector';
+import PhotoBoothHero from '../components/PhotoBoothHero';
+import { captureOverlays, drawOverlay } from '../utils/filters';
 
-function App() {  
+export default function PhotoBoothPage() {  
   // Landing page state
   const [hasEntered, setHasEntered] = useState(false);
   const [cameraInitialized, setCameraInitialized] = useState(false);
@@ -44,7 +45,7 @@ function App() {
   const countdownTimerRef = useRef(null);
 
   // Initialize camera ONLY after landing page dismissed
-  React.useEffect(() => {
+  useEffect(() => {
     if (!cameraInitialized) return;
 
     async function startCamera() {
@@ -73,7 +74,7 @@ function App() {
   }, [cameraInitialized]);
 
   // Connect stream to video element when ready
-  React.useEffect(() => {
+  useEffect(() => {
     if (videoRef.current && streamRef.current && streamStatus === 'active') {
       videoRef.current.srcObject = streamRef.current;
       videoRef.current.play().catch(err => {
@@ -142,7 +143,6 @@ function App() {
     setPendingPhoto(null);
     
     if (newPhotos.length >= photoCount) {
-      // Always go to filter first, then layout picker (if 6 photos) after
       setCurrentPhase('filter-selection');
     }
   };
@@ -153,7 +153,6 @@ function App() {
 
   const handleApplyFilter = () => {
     setStripFilterMode(selectedMode);
-    // For 6 photos, show layout picker next; otherwise go straight to strip-display
     if (photoCount === 6) {
       setCurrentPhase('layout-selection');
     } else {
@@ -180,7 +179,7 @@ function App() {
     setCurrentPhase('capture');
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     return () => {
       if (countdownTimerRef.current) {
         clearInterval(countdownTimerRef.current);
@@ -188,7 +187,6 @@ function App() {
     };
   }, []);
 
-  // Show landing page (with Grainient background built in)
   if (!hasEntered) {
     return <PhotoBoothHero onGetStarted={handleGetStarted} />;
   }
@@ -318,5 +316,3 @@ function App() {
     </div>
   );
 }
-
-export default App;

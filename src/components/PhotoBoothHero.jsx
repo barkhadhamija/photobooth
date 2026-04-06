@@ -1,3 +1,4 @@
+'use client';
 /**
  * PhotoBoothHero.jsx
  * Landing page inspired by cosmos.so — dark mosaic with scattered photos,

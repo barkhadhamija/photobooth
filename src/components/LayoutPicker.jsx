@@ -1,3 +1,4 @@
+'use client';
 /**
  * LayoutPicker.jsx
  * Shown after 6 photos are captured.

@@ -1,3 +1,4 @@
+'use client';
 /**
  * OccasionSelector.jsx
  * Displays occasion options as buttons.

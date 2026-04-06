@@ -1,3 +1,4 @@
+'use client';
 /**
  * PhotoStrip.jsx
  * Displays thumbnails of all captured photos.

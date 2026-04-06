@@ -1,3 +1,4 @@
+'use client';
 /**
  * CaptureButton.jsx
  * Renders a single "Capture" button.

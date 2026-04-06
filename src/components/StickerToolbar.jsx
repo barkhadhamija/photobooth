@@ -1,3 +1,4 @@
+'use client';
 /**
  * StickerToolbar.jsx
  * Displays available stickers for selected occasion.

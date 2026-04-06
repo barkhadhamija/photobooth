@@ -1,3 +1,4 @@
+'use client';
 /**
  * ModeSelector.jsx
  * Renders three buttons: Normal, Black & White, Soft Glow.

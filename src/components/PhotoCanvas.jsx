@@ -1,3 +1,4 @@
+'use client';
 /**
  * PhotoCanvas.jsx
  * Renders <canvas> element.
